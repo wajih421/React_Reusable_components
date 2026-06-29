@@ -1,85 +1,41 @@
 import {
-
   RadioGroup,
   Radio,
   FormControlLabel,
   FormControl,
-  FormHelperText
-
+  FormHelperText,
 } from "@mui/material";
-
 import { Controller } from "react-hook-form";
 
 function RadioField({
-
   name,
   control,
-  options
-
+  options,
+  rules,
 }) {
-
   return (
-
     <Controller
-
       name={name}
-
       control={control}
-
-      rules={{
-        required: "Please select an option"
-      }}
-
+      rules={rules}
       render={({ field, fieldState: { error } }) => (
-
-        <FormControl
-
-          error={!!error}
-
-        >
-
-          <RadioGroup
-
-            {...field}
-
-          >
-
-            {
-
-              options.map((option) => (
-
-                <FormControlLabel
-
-                  key={option}
-
-                  value={option}
-
-                  control={<Radio />}
-
-                  label={option}
-
-                />
-
-              ))
-
-            }
-
+        <FormControl error={!!error}>
+          <RadioGroup {...field}>
+            {options.map((option) => (
+              <FormControlLabel
+                key={option}
+                value={option}
+                control={<Radio />}
+                label={option}
+              />
+            ))}
           </RadioGroup>
 
-          <FormHelperText>
-
-            {error ? error.message : ""}
-
-          </FormHelperText>
-
+          <FormHelperText>{error?.message}</FormHelperText>
         </FormControl>
-
       )}
-
     />
-
   );
-
 }
 
 export default RadioField;

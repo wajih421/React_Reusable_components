@@ -10,16 +10,8 @@ import FileUpload from "./components/FileUpload";
 import "./App.css";
 
 function App() {
-
-  const {
-
-    control,
-    handleSubmit
-
-  } = useForm({
-
+  const { control, handleSubmit } = useForm({
     defaultValues: {
-
       name: "",
       age: "",
       description: "",
@@ -28,140 +20,115 @@ function App() {
       gender: "",
       agree: false,
       date: "",
-      file: null
-
-    }
-
+      file: null,
+    },
   });
 
   const submit = (data) => {
-
     console.log(data);
-
   };
 
   return (
-
     <div className="form-container">
-
-      <h1 className="form-title">
-
-        Student Registration Form
-
-      </h1>
+      <h1 className="form-title">Student Registration Form</h1>
 
       <form onSubmit={handleSubmit(submit)}>
-
+<InputField
+  label="Name"
+  name="name"
+  control={control}
+  rules={{
+    required: "Name is required",
+  }}
+/>
+<InputField
+  label="Age"
+  name="age"
+  control={control}
+  type="number"
+  rules={{
+    required: "Age is required",
+    min: {
+      value: 18,
+      message: "Age must be at least 18",
+    },
+    max: {
+      value: 35,
+      message: "Age must not exceed 35",
+    },
+  }}
+/>
         <InputField
-
-          label="Name"
-
-          name="name"
-
-          control={control}
-
-        />
-
-        <InputField
-
-          label="Age"
-
-          name="age"
-
-          type="number"
-
-          control={control}
-
-        />
-
-        <InputField
-
-          label="Description"
-
-          name="description"
-
-          multiline
-
-          rows={4}
-
-          control={control}
-
-        />
+  label="Description"
+  name="description"
+  control={control}
+  multiline
+  rows={4}
+  rules={{
+    required: "Description is required",
+    maxLength: {
+      value: 30,
+      message: "Maximum 30 characters allowed",
+    },
+  }}
+/>
 
         <Dropdown
+  label="Status"
+  name="status"
+  control={control}
+  options={["Active", "Progress", "Completed"]}
+  rules={{
+    required: "Status is required",
+  }}
+/>
 
-          label="Status"
-
-          name="status"
-
-          control={control}
-
-          options={["Active", "Progress", "Completed"]}
-
-        />
-
-        <Dropdown
-
-          label="Skills"
-
-          name="skills"
-
-          control={control}
-
-          multiple
-
-          options={["React", "Node", "MongoDB"]}
-
-        />
+<Dropdown
+  label="Skills"
+  name="skills"
+  control={control}
+  multiple
+  options={["React", "Node", "MongoDB"]}
+  rules={{
+    required: "Please select at least one skill",
+  }}
+/>
 
         <RadioField
-
-          name="gender"
-
-          control={control}
-
-          options={["Male", "Female"]}
-
-        />
+  name="gender"
+  control={control}
+  options={["Male", "Female"]}
+  rules={{
+    required: "Please select a gender",
+  }}
+/>
 
         <CheckboxField
-
-          name="agree"
-
-          label="Accept Terms & Conditions"
-
-          control={control}
-
-        />
-
-        <DateField
-
-          name="date"
-
-          control={control}
-
-        />
-
-        <FileUpload
-
-          name="file"
-
-          control={control}
-
-        />
-
-        <button type="submit">
-
-          Submit
-
-        </button>
-
+  label="Accept Terms"
+  name="terms"
+  control={control}
+  rules={{
+    validate: (value) => value || "Please accept the terms",
+  }}
+/>
+<DateField
+  name="date"
+  control={control}
+  rules={{
+    required: "Date is required",
+  }}
+/>
+<FileUpload
+  name="image"
+  control={control}
+  rules={{
+    required: "File is required",
+  }}
+/>
+        <button type="submit">Submit</button>
       </form>
-
     </div>
-
   );
-
 }
 
 export default App;
