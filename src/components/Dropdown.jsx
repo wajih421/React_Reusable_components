@@ -1,71 +1,100 @@
 import {
 
-FormControl,
-InputLabel,
-Select,
-MenuItem
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormHelperText
 
 } from "@mui/material";
 
+import { Controller } from "react-hook-form";
+
 function Dropdown({
 
-label,
+  name,
+  label,
+  control,
+  options,
+  multiple = false
 
-value,
+}) {
 
-onChange,
+  return (
 
-options,
+    <Controller
 
-multiple = false
+      name={name}
 
-}){
+      control={control}
 
-return(
+      rules={{
+        required: `${label} is required`
+      }}
 
-<FormControl fullWidth>
+      render={({ field, fieldState: { error } }) => (
 
-<InputLabel>
-{label}
-</InputLabel>
+        <FormControl
 
-<Select
+          fullWidth
 
-label={label}
+          error={!!error}
 
-value={value}
+        >
 
-onChange={onChange}
+          <InputLabel>
 
-multiple={multiple}
+            {label}
 
->
+          </InputLabel>
 
-{
+          <Select
 
-options.map((option)=>(
+            {...field}
 
-<MenuItem
+            label={label}
 
-key={option}
+            multiple={multiple}
 
-value={option}
+            value={multiple ? field.value || [] : field.value || ""}
 
->
+          >
 
-{option}
+            {
 
-</MenuItem>
+              options.map((option) => (
 
-))
+                <MenuItem
 
-}
+                  key={option}
 
-</Select>
+                  value={option}
 
-</FormControl>
+                >
 
-);
+                  {option}
+
+                </MenuItem>
+
+              ))
+
+            }
+
+          </Select>
+
+          <FormHelperText>
+
+            {error ? error.message : ""}
+
+          </FormHelperText>
+
+        </FormControl>
+
+      )}
+
+    />
+
+  );
 
 }
 

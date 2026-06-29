@@ -1,41 +1,69 @@
 import {
 
-Checkbox,
-FormControlLabel
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormHelperText
 
 } from "@mui/material";
 
+import { Controller } from "react-hook-form";
+
 function CheckboxField({
 
-label,
+  name,
+  label,
+  control
 
-checked,
+}) {
 
-onChange
+  return (
 
-}){
+    <Controller
 
-return(
+      name={name}
 
-<FormControlLabel
+      control={control}
 
-label={label}
+      rules={{
+        validate: (value) => value || "Please accept the terms"
+      }}
 
-control={
+      render={({ field, fieldState: { error } }) => (
 
-<Checkbox
+        <FormControl error={!!error}>
 
-checked={checked}
+          <FormControlLabel
 
-onChange={onChange}
+            label={label}
 
-/>
+            control={
 
-}
+              <Checkbox
 
-/>
+                {...field}
 
-);
+                checked={field.value || false}
+
+              />
+
+            }
+
+          />
+
+          <FormHelperText>
+
+            {error ? error.message : ""}
+
+          </FormHelperText>
+
+        </FormControl>
+
+      )}
+
+    />
+
+  );
 
 }
 

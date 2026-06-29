@@ -1,38 +1,82 @@
 import { TextField } from "@mui/material";
+import { Controller } from "react-hook-form";
 
 function InputField({
 
-label,
-name,
-register,
+  label,
+  name,
+  control,
+  type = "text",
+  multiline = false,
+  rows = 1,
 
-type = "text",
+}) {
 
-multiline = false,
+  return (
 
-rows = 1
+    <Controller
 
-}){
+      name={name}
 
-return(
+      control={control}
 
-<TextField
+      rules={
+  label === "Description"
+    ? {
+        required: "Description is required",
+        maxLength: {
+          value: 30,
+          message: "Maximum 30 characters allowed",
+        },
+      }
 
-fullWidth
+    : label === "Age"
+    ? {
+        required: "Age is required",
+        min: {
+          value: 18,
+          message: "Age must be at least 18",
+        },
+        max: {
+          value: 35,
+          message: "Age must not exceed 35",
+        },
+      }
 
-label={label}
+    : {
+        required: `${label} is required`,
+      }
+}
 
-type={type}
+      render={({ field, fieldState: { error } }) => (
 
-multiline={multiline}
+        <TextField
 
-rows={rows}
+          {...field}
 
-{...register(name)}
+          value={field.value || ""}
 
-/>
+          fullWidth
 
-);
+          label={label}
+
+          type={type}
+
+          multiline={multiline}
+
+          rows={rows}
+
+          error={!!error}
+
+          helperText={error ? error.message : ""}
+
+        />
+
+      )}
+
+    />
+
+  );
 
 }
 

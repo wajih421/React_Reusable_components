@@ -1,27 +1,47 @@
 import { TextField } from "@mui/material";
+import { Controller } from "react-hook-form";
 
 function DateField({
 
-value,
-onChange
+  name,
+  control,
+  label = "Date"
 
 }) {
 
   return (
 
-    <TextField
+    <Controller
 
-      fullWidth
+      name={name}
 
-      label="Date"
+      control={control}
 
-      type="date"
+      rules={{
+        required: "Date is required"
+      }}
 
-      value={value}
+      render={({ field, fieldState: { error } }) => (
 
-      onChange={onChange}
+        <TextField
 
-    
+          {...field}
+
+          fullWidth
+
+          label={label}
+
+          type="date"
+
+          
+
+          error={!!error}
+
+          helperText={error ? error.message : ""}
+
+        />
+
+      )}
 
     />
 

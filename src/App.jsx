@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import InputField from "./components/InputField";
@@ -8,145 +7,153 @@ import CheckboxField from "./components/CheckboxField";
 import DateField from "./components/DateField";
 import FileUpload from "./components/FileUpload";
 
+import "./App.css";
+
 function App() {
 
-  const { register, handleSubmit } = useForm();
+  const {
 
-  const [status, setStatus] = useState("");
+    control,
+    handleSubmit
 
-  const [skills, setSkills] = useState([]);
+  } = useForm({
 
-  const [gender, setGender] = useState("");
+    defaultValues: {
 
-  const [agree, setAgree] = useState(false);
+      name: "",
+      age: "",
+      description: "",
+      status: "",
+      skills: [],
+      gender: "",
+      agree: false,
+      date: "",
+      file: null
 
-  const [date, setDate] = useState("");
+    }
 
-  const [file, setFile] = useState(null);
+  });
 
   const submit = (data) => {
 
-    console.log("Form Data:", data);
-
-    console.log("Status:", status);
-
-    console.log("Skills:", skills);
-
-    console.log("Gender:", gender);
-
-    console.log("Agree:", agree);
-
-    console.log("Date:", date);
-
-    console.log("File:", file);
+    console.log(data);
 
   };
 
   return (
 
-    <div
-      style={{
-        maxWidth: "600px",
-        margin: "30px auto",
-        display: "flex",
-        flexDirection: "column",
-        gap: "20px"
-      }}
-    >
+    <div className="form-container">
 
-      <h1>Reusable Form Components</h1>
+      <h1 className="form-title">
+
+        Student Registration Form
+
+      </h1>
 
       <form onSubmit={handleSubmit(submit)}>
 
         <InputField
+
           label="Name"
+
           name="name"
-          register={register}
-          type="text"
+
+          control={control}
+
         />
 
-        <br /><br />
-
         <InputField
+
           label="Age"
-          name="age"
-          register={register}
-          type="number"
-        />
 
-        <br /><br />
+          name="age"
+
+          type="number"
+
+          control={control}
+
+        />
 
         <InputField
+
           label="Description"
+
           name="description"
-          register={register}
+
           multiline
+
           rows={4}
+
+          control={control}
+
         />
 
-        <br /><br />
-
         <Dropdown
+
           label="Status"
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-          options={[
-            "Active",
-            "Progress",
-            "Completed"
-          ]}
-        />
 
-        <br /><br />
+          name="status"
+
+          control={control}
+
+          options={["Active", "Progress", "Completed"]}
+
+        />
 
         <Dropdown
-          label="Skills"
-          multiple
-          value={skills}
-          onChange={(e) => setSkills(e.target.value)}
-          options={[
-            "React",
-            "Node",
-            "MongoDB"
-          ]}
-        />
 
-        <br /><br />
+          label="Skills"
+
+          name="skills"
+
+          control={control}
+
+          multiple
+
+          options={["React", "Node", "MongoDB"]}
+
+        />
 
         <RadioField
-          value={gender}
-          onChange={(e) => setGender(e.target.value)}
-          options={[
-            "Male",
-            "Female"
-          ]}
-        />
 
-        <br /><br />
+          name="gender"
+
+          control={control}
+
+          options={["Male", "Female"]}
+
+        />
 
         <CheckboxField
-          label="Accept Terms"
-          checked={agree}
-          onChange={(e) => setAgree(e.target.checked)}
-        />
 
-        <br /><br />
+          name="agree"
+
+          label="Accept Terms & Conditions"
+
+          control={control}
+
+        />
 
         <DateField
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-        />
 
-        <br /><br />
+          name="date"
+
+          control={control}
+
+        />
 
         <FileUpload
-          onChange={(e) => setFile(e.target.files[0])}
+
+          name="file"
+
+          control={control}
+
         />
 
-        <br /><br />
-
         <button type="submit">
+
           Submit
+
         </button>
 
       </form>
